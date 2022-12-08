@@ -256,3 +256,43 @@ subplot(m, n, 1), imshow(I);
 subplot(m, n, 2), imshow(J);
 subplot(m, n, 3), imshow(K);
 
+%% Questão 10
+
+%% Questão 11
+
+%% Questão 12
+
+% para cada camada da matriz, uma distância diferente
+% camada 1 -> distância euclidiana
+% camada 2 -> distância city block
+% camada 3 -> distância chessboard
+
+x_max = 101;
+y_max = 101;
+I = zeros(x_max, y_max, 3);
+
+x_center = (x_max + 1) / 2.0;
+y_center = (y_max + 1) / 2.0;  
+
+% Distância euclidiana
+for x = 1:x_max
+   for y = 1:x_max
+       I(x, y, 1) = sqrt((x - x_center)^2 + (y - y_center)^2);
+   end
+end
+    
+% Distância city-block
+for x = 1:x_max
+   for y = 1:x_max
+       I(x, y, 2) = abs(x - x_center) + abs(y - y_center);
+   end
+end
+    
+% Distância chessboard
+for x = 1:x_max
+   for y = 1:x_max
+       I(x, y, 3) = max(abs(x - x_center), abs(y - y_center));
+   end
+end
+
+

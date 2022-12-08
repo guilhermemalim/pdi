@@ -123,17 +123,45 @@ fmin = min(I_temp(:));
 I_norm = uint8(255.0*double((I_temp-fmin))/double((fmax-fmin)));
 
 % segunda imagem
-[J, map] = imread('canoe.tif');
+[J, cmap] = imread('canoe.tif');
+RGB = ind2rgb(J,cmap);
+
+p = p/256;
+
 
 % imadd já faz o truncamento
-J_trunc = imadd(map, p);
+RGB_trunc = zeros(size(RGB));
+RGB_trunc(:,:, 1) = imadd(RGB(:,:,1), p);
+RGB_trunc(:,:, 2) = imadd(RGB(:,:,2), p);
+RGB_trunc(:,:, 3) = imadd(RGB(:,:,3), p);
 
 % normalização
-J_temp = uint16(J) + uint16(p);
-fmax = max(J_temp(:));
-fmin = min(J_temp(:));
+RGB_temp = zeros(size(RGB));
+RGB_temp(:,:, 1) = double(RGB(:,:,1)) + p;
+RGB_temp(:,:, 2) = double(RGB(:,:,2)) + p;
+RGB_temp(:,:, 3) = double(RGB(:,:,3)) + p;
 
-J_norm = uint8(255.0*double((J_temp-fmin))/double((fmax-fmin)));
+fmax = zeros(1, 3);
+fmin = zeros(1, 3);
+
+R_temp = RGB_temp(:, :, 1);
+G_temp = RGB_temp(:, :, 2);
+B_temp = RGB_temp(:, :, 3);
+
+fmax(1) = max(R_temp(:));
+fmin(1) = min(R_temp(:));
+
+fmax(2) = max(G_temp(:));
+fmin(2) = min(G_temp(:));
+
+fmax(3) = max(B_temp(:));
+fmin(3) = min(B_temp(:));
+
+RGB_norm = zeros(size(RGB));
+RGB_norm(:,:, 1) = double((R_temp-fmin(1)))/double((fmax(1)-fmin(1)));
+RGB_norm(:,:, 2) = double((G_temp-fmin(2)))/double((fmax(2)-fmin(2)));
+RGB_norm(:,:, 3) = double((B_temp-fmin(3)))/double((fmax(3)-fmin(3)));
+
 
 n = 3;
 m = 2;
@@ -142,9 +170,9 @@ subplot(m, n, 1), imshow(I);
 subplot(m, n, 2), imshow(I_norm);
 subplot(m, n, 3), imshow(I_trunc);
 
-subplot(m, n, 4), imshow(J, map);
-subplot(m, n, 5), imshow(J_norm);
-subplot(m, n, 6), imshow(J_trunc, map);
+subplot(m, n, 4), imshow(RGB);
+subplot(m, n, 5), imshow(RGB_norm);
+subplot(m, n, 6), imshow(RGB_trunc);
 
 %% Questão 7
 % TODO - aplicar o processo para a imagem RDB - canoe.tif
@@ -162,17 +190,44 @@ fmin = min(I_temp(:));
 I_norm = uint8(255.0*double((I_temp-fmin))/double((fmax-fmin)));
 
 % segunda imagem
-[J, map] = imread('forest.tif');
+[J, cmap] = imread('forest.tif');
+RGB = ind2rgb(J,cmap);
+
+p = p/256;
+
 
 % imadd já faz o truncamento
-J_trunc = imsubtract(J, p);
+RGB_trunc = zeros(size(RGB));
+RGB_trunc(:,:, 1) = imsubtract(RGB(:,:,1), p);
+RGB_trunc(:,:, 2) = imsubtract(RGB(:,:,2), p);
+RGB_trunc(:,:, 3) = imsubtract(RGB(:,:,3), p);
 
 % normalização
-J_temp = uint16(J) - uint16(p);
-fmax = max(J_temp(:));
-fmin = min(J_temp(:));
+RGB_temp = zeros(size(RGB));
+RGB_temp(:,:, 1) = double(RGB(:,:,1)) - p;
+RGB_temp(:,:, 2) = double(RGB(:,:,2)) - p;
+RGB_temp(:,:, 3) = double(RGB(:,:,3)) - p;
 
-J_norm = uint8(255.0*double((J_temp-fmin))/double((fmax-fmin)));
+fmax = zeros(1, 3);
+fmin = zeros(1, 3);
+
+R_temp = RGB_temp(:, :, 1);
+G_temp = RGB_temp(:, :, 2);
+B_temp = RGB_temp(:, :, 3);
+
+fmax(1) = max(R_temp(:));
+fmin(1) = min(R_temp(:));
+
+fmax(2) = max(G_temp(:));
+fmin(2) = min(G_temp(:));
+
+fmax(3) = max(B_temp(:));
+fmin(3) = min(B_temp(:));
+
+RGB_norm = zeros(size(RGB));
+RGB_norm(:,:, 1) = double((R_temp-fmin(1)))/double((fmax(1)-fmin(1)));
+RGB_norm(:,:, 2) = double((G_temp-fmin(2)))/double((fmax(2)-fmin(2)));
+RGB_norm(:,:, 3) = double((B_temp-fmin(3)))/double((fmax(3)-fmin(3)));
 
 n = 3;
 m = 2;
@@ -181,9 +236,9 @@ subplot(m, n, 1), imshow(I);
 subplot(m, n, 2), imshow(I_norm);
 subplot(m, n, 3), imshow(I_trunc);
 
-subplot(m, n, 4), imshow(J, map);
-subplot(m, n, 5), imshow(J_norm);
-subplot(m, n, 6), imshow(J_trunc, map);
+subplot(m, n, 4), imshow(RGB);
+subplot(m, n, 5), imshow(RGB_norm);
+subplot(m, n, 6), imshow(RGB_trunc);
 
 %% Questão 8
 
@@ -192,7 +247,7 @@ I = imread('Mobile20.tiff');
 J = imread('Mobile21.tiff');
 
 K = bitxor(I, J);
-
+    
 
 n = 3;
 m = 1;
@@ -201,10 +256,31 @@ subplot(m, n, 1), imshow(I);
 subplot(m, n, 2), imshow(J);
 subplot(m, n, 3), imshow(K);
 
-%% t
-A = imread('mandrill.tiff');
-B = imresize(A, 0.5);
+%% Questão 10
 
-subplot(1, 2, 1), imshow(A);
-subplot(1, 2, 2), imshow(B);
+%% Questão 11
+
+%% Questão 12
+
+% para cada camada da matriz, uma distância diferente
+% camada 1 -> distância euclidiana
+% camada 2 -> distância city block
+% camada 3 -> distância chessboard
+
+x_max = 101;
+y_max = 
+max_size = 101;
+I = zeros(max_size, max_size , 3);
+
+center = (max_size + 1) / 2.0;
+
+% Distância euclidiana
+for x = 1:max_size
+   for y = 1:max_size
+       I(x, y, 1) = sqrt((x - center)^2 + (y - center)^2)
+   end
+end
+
+
+
 
