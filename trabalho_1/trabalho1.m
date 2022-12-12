@@ -108,7 +108,6 @@ subplot(m, n, 1), imshow(I);
 subplot(m, n, 2), imshow(J);
 
 %% Questão 6
-% TODO - aplicar o processo para a imagem RDB - canoe.tif
 I = imread('barb.tiff');
 p = 120; % valor a ser adicionado
 
@@ -175,7 +174,6 @@ subplot(m, n, 5), imshow(RGB_norm);
 subplot(m, n, 6), imshow(RGB_trunc);
 
 %% Questão 7
-% TODO - aplicar o processo para a imagem RDB - canoe.tif
 I = imread('circuit.tif');
 p = 120; % valor a ser subtraído
 
