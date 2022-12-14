@@ -64,6 +64,7 @@ subplot(m, n, 7), imshow(I2);
 subplot(m, n, 8), imshow(I1);
 
 %%  Questão 3
+% TODO
 I = imread('pontos.png');
 J = zeros(size(I));
 
@@ -90,6 +91,8 @@ for i = 1:x
                 py = FIFO_y(fifo_index);
                 FIFO_x(fifo_index) = 0;
                 FIFO_y(fifo_index) = 0;
+
+%                 disp(fifo_index);
                 
                 % verificar os elementos vizinhos de p
                 if py < y && I(px, py + 1) == 255 && J(px, py + 1) == 0
@@ -155,7 +158,7 @@ for i = 1:x
                     fifo_index = fifo_index + 1;
                 end
                 
-                if px > 1 && py < y && I(px - 1, py + 1) == 255 && J(px - 1, py + 1) == 0
+                if px > 1 && py < y && I(px - 1, py + 1) == 255 && J(px - 1, py + 1) ~= 0
                     J(px - 1, py + 1) = L;
                     
                     % Adicionar o pixel no FIFO
@@ -165,29 +168,20 @@ for i = 1:x
                 end
             end
             
+%             disp('exit');
+%             break;
+            
             L = L + 1;
         end
     end    
 end
 
-% Colorindo a imagem
-
-resultado = zeros(x, y, 3);
-for i = 1:x
-    for j = 1:y
-        if J(i,j) == 1
-            resultado(i,j,1) = 1;
-        elseif J(i,j) == 2
-            resultado(i,j,2) = 1;
-        end
-    end
-end
 
 n = 2;
 m = 1;
 
-subplot(m, n, 1), imshow(I), title('imagem original');
-subplot(m, n, 2), imshow(resultado), title('imagem separada por regiões conectadas');
+subplot(m, n, 1), imshow(I);
+% subplot(m, n, 2), imshow(J);
 
 %% Questão 4
 I = imread('forma1.png');
