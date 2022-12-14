@@ -3,7 +3,7 @@ clear all, close all, clc;
 % Projeto 1 - PDI
 % Guilherme Matheus - 21950880
 % José Marcos       - 21953043 
-% Vinícius Patrício - 2195
+% Vinícius Patrício - 21951799
 
 %% Questão 1
 
@@ -355,6 +355,19 @@ subplot(m, n, 6), imshow(RGB_trunc);
 
 %% Questão 8
 
+img = imread('gold.tiff');
+
+pixel_50_porcento = 255*50/100;
+pixel_25_porcento = 255*25/100;
+
+img_result1 = imadd(img,pixel_50_porcento);
+img_result2 = imsubtract(img,pixel_25_porcento);
+
+subplot(1,3,1), imshow(img), title('Entrada');
+subplot(1,3,2), imshow(img_result1),title('Incremento de 50% de brilho');
+subplot(1,3,3), imshow(img_result2),title('Reducao de 25% de brilho');
+
+
 %% Questão 9
 I = imread('Mobile20.tiff');
 J = imread('Mobile21.tiff');
@@ -371,7 +384,33 @@ subplot(m, n, 3), imshow(K);
 
 %% Questão 10
 
+img = imread('mandrill.tiff');
+img_resize = imresize(img, 0.5);
+
+subplot(1, 2, 1), imshow(img), title('Entrada');
+subplot(1, 2, 2), imshow(img_resize), title('Saida');
+size(img)
+size(img_resize)
+
+
 %% Questão 11
+
+img = imread('peppers.tiff');
+img_gray = rgb2gray(img);
+[len,larg] = size(img_gray);
+mascara = uint8(zeros(len,larg));
+
+mascara(250:712,250:712) = 1;
+mascara(690:712,:) = 0;
+mascara(:,620:712) = 0;
+img_resul = immultiply(img_gray,mascara);
+mascara = mascara*255;
+n = 3;
+m = 1;
+
+subplot(m, n, 1), imshow(img_gray), title('Imagem Original');
+subplot(m, n, 2), imshow(mascara), title('Mascara');
+subplot(m, n, 3), imshow(img_resul), title('Imagem isolada');
 
 %% Questão 12
 
